@@ -3,6 +3,8 @@
 
 #include "funcoes_auxiliares.h"
 
+#define MAX_UCS 40
+
 typedef struct{
     int codigo;
     char designacao;
