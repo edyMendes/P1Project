@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1609153225 source:e:\ipl\p1 pl\projeto\p1project\main project\funcoes_auxiliares.c
+	<stdio.h>
+	<string.h>
+	"funcoes_auxiliares.h"
+
+1609153599 e:\ipl\p1 pl\projeto\p1project\main project\funcoes_auxiliares.h
+
