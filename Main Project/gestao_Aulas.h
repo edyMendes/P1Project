@@ -15,4 +15,9 @@ typedef struct{
     char opcaoGravacao;
 } tipoAulaOnline;
 
+
+
+
+
+
 #endif // GESTAO_AULAS_H_INCLUDED
