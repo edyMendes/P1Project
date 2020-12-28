@@ -16,16 +16,6 @@ typedef struct{
     int duracao;
 } tipoUCs;
 
-typedef struct{
-    int designacao;
-    int codigoUC;
-    char tipoAula;
-    char nomeDocente;
-    tipoData data;
-    tipoHora horaInicio;
-    tipoHora horaFim;
-    char estadoAula;
-    char opcaoGravacao;
-} tipoAulaOnline;
+
 
 #endif // GESTAOUCS_H_INCLUDED
