@@ -4,7 +4,7 @@
 int main()
 {
     printf("teste para ver o que foi alterado\n");
-    
-    printf("teste para ver o que foi adicionado\n\n ")
+
+    printf("teste para ver o que foi adicionado\n\n ");
     return 0;
 }
