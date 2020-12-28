@@ -27,4 +27,7 @@ void limpaBufferStdin(void);
 tipoData lerData(char mensagem[]);
 void escreverData (tipoData data);
 
+tipoHora lerHora(char mensagem[]);
+void escreverHora (tipoHora hora);
+
 #endif // FUNCOES_AUXILIARES_H_INCLUDED
