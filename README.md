@@ -153,52 +153,7 @@ Programação I – EI - 2020/21                                                
 
 
 7. Cotações
-   Nota do Projeto (0-20) = 50% * notaFase1 (mín de 8.0) + 50% notaFase2 (mín de 8.0)
-
-   Critérios de correção da Fase 1 do Projeto e respetivas cotações (*)
-
-   a) Relatório contendo todos os elementos obrigatórios ................................................2,5%
-
-   b) Estrutura de Menus (incluindo informação solicitada)...............................................5,0%
-
-   c) Gestão de UCs, e respetivas listagens ...................................................................10,0%
-
-   d) Agendamento e listagem de aulas ..........................................................................10,0%
-
-   e) Alteração de aula agendada .....................................................................................7,5%
-
-   f) Registo de início/final de uma aula ...........................................................................5,0%
-
-   g) Registo do acesso de um estudante a uma aula (e armazenamento em logs) ........7,5%
-
-   h) Ficheiros (leitura e escrita de dados dos estudantes, das UCs e das aulas)............7,5%
-
-   i) Informação de aula online ........................................................................................5,0%
-
-   j) Ranking de UCs ........................................................................................................7,5%
-
-   k) Dados estatísticos (cálculo e apresentação)...........................................................17,5%
-
-   l) Listagem de estudantes presentes numa aula........................................................10,0%
-
-   m) Estrutura geral do programa, incluindo a adequada utilização de variáveis locais,
-       constantes, funções, comentários, indentação do código, separação do código
-       por ficheiros ...............................................................................................................5,0%
-
-   (*) Com exceção da alínea a), as cotações apenas serão aplicadas em projetos que
-       compilem sem erros, não se considerado o código comentado.
-       Apenas serão cotados os relatórios contendo todos os elementos obrigatórios
-       (descrição e representação gráfica das estruturas de dados, e a identificação das
-       funcionalidades não desenvolvidas ou parcialmente/incorretamente desenvolvidas).
-
-
-   Será anulado qualquer projeto total ou parcialmente plagiado, podendo os
-   estudantes envolvidos ser sujeitos a procedimento disciplinar.
-   É considerado plágio a cópia de textos, documentos, imagens ou código de outras fontes,
-   e considerá-lo como próprio.
-   Essa situação pode ocorrer quando é partilhado código entre grupos de projeto, ou
-   quando o projeto é desenvolvido por elementos de vários grupos.
-
+  Criadas milestones/ projeto com os vários tipos de condições a realizar
 
 Programação I – EI - 2020/21                                                                                             Pág. 4 de 4
 
