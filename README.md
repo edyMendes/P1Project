@@ -1,7 +1,7 @@
 # P1Project
 
-                                      P ROGRAMAÇÃO I
-                                   ENGENHARIA INFORMÁTICA (EI)
+                                             PROGRAMAÇÃO I
+                                      ENGENHARIA INFORMÁTICA (EI)
 
                                                Projeto
 
