@@ -9,7 +9,7 @@
 
 typedef struct{
     int designacao;
-    char codigoUC; //modificação de int para char - o código da UC pode ser designafo com letras e numeros
+    tipoUCs codigoUC; //modificação de int para char - o código da UC pode ser designafo com letras e numeros
     char tipoAula;
     char nomeDocente[MAX_STRING];
     tipoData data;
