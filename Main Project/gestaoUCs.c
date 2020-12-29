@@ -1,3 +1,5 @@
+//gestão de funções relativas às UCs
+
 #include <stdio.h>
 
 #include "gestaoUCs.h"
