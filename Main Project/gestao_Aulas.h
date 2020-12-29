@@ -2,11 +2,13 @@
 #define GESTAO_AULAS_H_INCLUDED
 
 #include "funcoes_auxiliares.h"
+#include "gestao_UCs.h"
+
 
 typedef struct{
-    int designacao;
-    int codigoUC;
-    char tipoAula;
+    tipoUCs codigo;
+    tipoUCs tipoAula;
+    int codigoAula; //unico, necessita implementação de um incremento por cada nova aula agendada, string - "<tipoUCs codigo>+<incremento>" de modo a automaticamente contar o numero de aulas realizadas
     char nomeDocente;
     tipoData data;
     tipoHora horaInicio;
