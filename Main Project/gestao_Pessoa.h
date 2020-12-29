@@ -1,7 +1,7 @@
 //gestão de funções relativas aos Alunos
 
-#ifndef GESTAO_ALUNOS_H_INCLUDED
-#define GESTAO_ALUNOS_H_INCLUDED
+#ifndef GESTAO_PESSOA_H_INCLUDED
+#define GESTAO_PESSOA_H_INCLUDED
 
 #include "funcoes_auxiliares.h"
 
@@ -10,6 +10,6 @@
 
 typedef struct {
   int num_Estudante;
-  
+
 }
-#endif // GESTAO_ALUNOS_H_INCLUDED
+#endif // GESTAO_PESSOA_H_INCLUDED
