@@ -8,4 +8,8 @@
 
 #define MAX_ALUNOS 100
 
+typedef struct {
+  int num_Estudante;
+  
+}
 #endif // GESTAO_ALUNOS_H_INCLUDED
