@@ -1,7 +1,7 @@
 //gestão de funções relativas às UCs
 
-#ifndef GESTAOUCS_H_INCLUDED
-#define GESTAOUCS_H_INCLUDED
+#ifndef GESTAO_UCS_H_INCLUDED
+#define GESTAO_UCS_H_INCLUDED
 
 #include "funcoes_auxiliares.h"
 
@@ -20,4 +20,4 @@ typedef struct{
 
 
 
-#endif // GESTAOUCS_H_INCLUDED
+#endif // GESTAO_UCS_H_INCLUDED
