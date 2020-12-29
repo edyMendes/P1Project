@@ -8,7 +8,7 @@
 #define MAX_UCS 40
 
 typedef struct{
-    int codigo;
+    char codigo; //modificação de int para char - o código da UC pode ser designafo com letras e numeros
     char designacao;
     char tipoUc;
     int semestre;
