@@ -16,7 +16,7 @@ typedef struct{
     int codigoAula; //unico, necessita implementação de um incremento por cada nova aula agendada, string - "<tipoUCs codigo>+<tipoUCs tipoAula>+i++" de modo a automaticamente contar o numero de aulas realizadas
     char nomeDocente;
     int designacao;
-    char codigoUC; //modificação de int para char - o código da UC pode ser designafo com letras e numeros
+    tipoUCs codigoUC; //modificação de int para char - o código da UC pode ser designafo com letras e numeros
     char tipoAula;
     char nomeDocente[MAX_STRING];
 
