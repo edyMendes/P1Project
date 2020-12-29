@@ -1,3 +1,5 @@
+//gestão de funções relativas às UCs
+
 #ifndef GESTAOUCS_H_INCLUDED
 #define GESTAOUCS_H_INCLUDED
 

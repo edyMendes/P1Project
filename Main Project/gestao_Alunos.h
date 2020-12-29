@@ -1,3 +1,5 @@
+//gestão de funções relativas aos Alunos
+
 #ifndef GESTAO_ALUNOS_H_INCLUDED
 #define GESTAO_ALUNOS_H_INCLUDED
 
