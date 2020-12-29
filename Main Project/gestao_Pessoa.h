@@ -7,9 +7,13 @@
 
 
 #define MAX_ALUNOS 100
+#define MAX_STRING 50
+
 
 typedef struct {
-  int num_Estudante;
+  int num_Identificacao;
+  char nome[MAX_STRING]
+  char estatuto;
 
 }
 #endif // GESTAO_PESSOA_H_INCLUDED
