@@ -5,17 +5,19 @@
 
 #include "funcoes_auxiliares.h"
 
+#define MAX_STRING 50
+
 typedef struct{
     int designacao;
-    int codigoUC;
+    char codigoUC; //modificação de int para char - o código da UC pode ser designafo com letras e numeros
     char tipoAula;
-    char nomeDocente;
+    char nomeDocente[MAX_STRING];
     tipoData data;
     tipoHora horaInicio;
     tipoHora horaFim;
-    char estadoAula;
+    char estadoAula; //agendada, a decorrer, realizada
     char opcaoGravacao;
-} tipoAulaOnline;
+} tipoAula;
 
 
 
