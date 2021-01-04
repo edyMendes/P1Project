@@ -12,7 +12,7 @@
 
 typedef struct {
   int num_Identificacao;
-  char nome[MAX_STRING]
+  char nome[MAX_STRING];
   char estatuto;
 
 }

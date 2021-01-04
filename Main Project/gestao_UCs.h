@@ -6,6 +6,7 @@
 #include "funcoes_auxiliares.h"
 
 #define MAX_UCS 40
+#define MAX_STRING 50
 
 typedef struct{
     char codigoUC; //modificação de int para char - o código da UC pode ser designafo com letras e numeros
