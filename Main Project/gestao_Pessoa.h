@@ -15,5 +15,5 @@ typedef struct {
   char nome[MAX_STRING];
   char estatuto;
 
-}
+}tipoPessoa
 #endif // GESTAO_PESSOA_H_INCLUDED

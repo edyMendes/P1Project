@@ -43,10 +43,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="gestao_Aulas.h" />
-		<Unit filename="gestao_Pessoa.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="gestao_Pessoa.h" />
 		<Unit filename="gestao_UCs.c">
 			<Option compilerVar="CC" />
 		</Unit>
