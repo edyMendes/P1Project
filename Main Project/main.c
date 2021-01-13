@@ -11,6 +11,8 @@ int main()
     int quantUCs=0;
     char opcao;
 
+
+
     do
     {
         opcao = menuUCs(quantUCs);
