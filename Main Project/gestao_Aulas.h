@@ -20,7 +20,7 @@ typedef struct{
     tipoHora horaFim;
     char estadoAula; //agendada, a decorrer, realizada
     char opcaoGravacao;
-} tipoAula;
+} tipoAulas;
 
 
 
