@@ -5,7 +5,7 @@
 
 #include "gestao_UCs.h"
 
-char menuUCs(int quantUCs);
+char menuUCs(void);
 
 int main()
 {
@@ -17,7 +17,7 @@ int main()
 
     do
     {
-        opcao = menuUCs(quantUCs);
+        opcao = menuUCs();
 
         switch (opcao)
         {
@@ -38,12 +38,9 @@ int main()
     while (opcao != 'F');
 
     return 0;
-
-
-    return 0;
 }
 
-char menuUCs(int quantUCs)
+char menuUCs(void)
 {
     char opcao;
 

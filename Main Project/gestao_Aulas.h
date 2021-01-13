@@ -27,9 +27,4 @@ typedef struct{
 
 
 
-
-
-
-
-
 #endif // GESTAO_AULAS_H_INCLUDED

@@ -9,30 +9,35 @@
 #define MAX_UCS 40
 
 #define MIN_CODUC 1
-#define MAX_CODUC 9999
+#define MAX_CODUC 99
 
-#define MIN_TIPOUC 1
-#define MAX_TIPOUC 2
+#define OBRIGATORIO 1
+#define OPCIONAL 2
 
 #define MIN_SEMESTRE 1
 #define MAX_SEMESTRE 6
 
-#define MIN_REGIME 1
-#define MAX_REGIME 2
+#define DIURNO 1
+#define POSLABORAL 2
+
+#define MIN_QUANTPREVISTA 0
+#define MAX_QUANTPREVISTA 20
+
+#define MIN_DURACAOAULA 60
+#define MAX_DURACAOAULA 180
 
 typedef struct{
     int codigoUC; // 1 a 9999
-    char designacao[MAX_STRING]; // designacao da UC
-    int tipoUc; // 1-obrigatorio ou 2-opcional
+    char designacao[MAX_STRING]; // Designacao da
+    int tipoUC; // 1-obrigatorio ou 2-opcional
     int semestre; // 1 a 6
     int regime; // 1-diurno ou 2-pos-laboral
-    int quantPrevistaT; // quantidade prevista do tipo de aulas T
-    int duracaoT; // duracao em minutos do tipo de aulas T
-    int quantPrevistaTP; // quantidade prevista do tipo de aulas TP
-    int duracaoTP; // duracao em minutos do tipo de aulas TP
-    int quantPrevistaPL; // quantidade prevista do tipo de aulas PL
-    int duracaoPL; // duracao em minutos do tipo de aulas PL
-    char tipoAula; // designação da aula
+    int quantPrevistaT; // quantidade prevista de aulas T
+    int duracaoT; // Duracao da aula T em minutos
+    int quantPrevistaTP; // quantidade prevista de aulas TP
+    int duracaoTP; // Duracao da aula TP em minutos
+    int quantPrevistaPL; // quantidade prevista de aulas PL
+    int duracaoPL; // Duracao da aula PL em minutos
 } tipoUCs;
 
 
