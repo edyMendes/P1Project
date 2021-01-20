@@ -3,13 +3,15 @@
 #include <ctype.h>
 #include <string.h>
 
-#include ""
+#include "gestao_UCs.h"
+#include "gestao_Aulas.h"
+
+char menuPrincipal(int quantUCs, int quantAulasAgendadas, int quantAulasRealizadas, int quantAulasGravadas);
+char menuUCs(int quantUCs);
+char menuAulas();
 
 int main()
 {
-<<<<<<< Updated upstream
-    printf("Hello world!\n");
-=======
     tipoUCs vetorUCS[MAX_UCS];
     int quantUCs=0;
     tipoAulas *vetorAulas;
@@ -65,8 +67,7 @@ int main()
 
                 switch(opcaoAulas)
                 {
-                case 'I':  // Agendar aula
-                    lerDadosAula(vetorAulas);
+                case 'I':  // Inserir UC
                     break;
                 case 'A':  // alterar UC
                     break;
@@ -93,31 +94,99 @@ int main()
 
     free(vetorAulas);
 
->>>>>>> Stashed changes
     return 0;
 }
 
-char menuPrincipal()
+char menuAulas()
 {
     char opcao;
 
     do
     {
-        printf("\n\n********************* MENU PRINCIPAL ********************\n");
-        printf("UCs Inseridas: %d\n");
-        printf("\t\tOPCAO -> ");
+        printf("\n\n******** MENU AULAS ONLINE ********\n");
+        printf("\n(I)nserir aulas online");
+        printf("\n(A)lterar aula online");
+        printf("\n(E)liminar aula online");
+        printf("\n(M)ostrar aulas ");
+        printf("\n(G)ravar dados para o ficheiro");
+        printf("\n(L)er dados do Ficheiro");
+        printf("\n(F)im");
+        printf("\n\t\tOPCAO -> ");
 
         scanf("%c", &opcao);
         limpaBufferStdin();
 
         opcao = toupper (opcao);
 
-        if (strchr("", opcao) == NULL)
+        if (strchr("IAEMGLF", opcao) == NULL)
         {
-            printf("\n\nERRO: Opcao Invalida\n\n");
+            printf("\n\nERRO: Opcao Invalida!!");
         }
     }
-    while (strchr("", opcao) == NULL);
+    while (strchr("IAEMGLF", opcao) == NULL);
+
+    return opcao;
+}
+
+char menuUCs(int quantUCs)
+{
+    char opcao;
+
+    do
+    {
+        printf("\n\n******** MENU UCS ********\n");
+        printf("UCs Inseridas: %d\n", quantUCs);
+        printf("\n(I)nserir UC");
+        printf("\n(A)lterar UC");
+        printf("\n(E)liminar UC");
+        printf("\n(M)ostrar UCs ");
+        printf("\n(G)ravar dados para o ficheiro");
+        printf("\n(L)er dados do Ficheiro");
+        printf("\n(F)im");
+        printf("\n\t\tOPCAO -> ");
+
+        scanf("%c", &opcao);
+        limpaBufferStdin();
+
+        opcao = toupper (opcao);
+
+        if (strchr("IAEMGLF", opcao) == NULL)
+        {
+            printf("\n\nERRO: Opcao Invalida!!");
+        }
+    }
+    while (strchr("IAEMGLF", opcao) == NULL);
+
+    return opcao;
+}
+
+char menuPrincipal(int quantUCs, int quantAulasAgendadas, int quantAulasRealizadas, int quantAulasGravadas)
+{
+    char opcao;
+
+    do
+    {
+        printf("\n\n******** MENU PRINCIPAL ********\n");
+        printf("\nQuantidade de UCs: %d\n", quantUCs);
+        printf("\nQuantidade de aulas agendadas: %d", quantAulasAgendadas);
+        printf("\nQuantidade de aulas realizadas: %d", quantAulasRealizadas);
+        printf("\nQuantidade de aulas gravadas: %d", quantAulasGravadas);
+        printf("\n\n(U)Cs");
+        printf("\n(A)ulas");
+        printf("\n(F)im");
+        printf("\n\t\tOPCAO -> ");
+
+        scanf("%c", &opcao);
+        limpaBufferStdin();
+
+        opcao = toupper (opcao);
+
+        if (strchr("UAF", opcao) == NULL)
+        {
+            printf("\n\nERRO: Opcao Invalida!!");
+        }
+    }
+    while (strchr("UAF", opcao) == NULL);
 
     return opcao;
 }
