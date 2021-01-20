@@ -30,4 +30,6 @@ void escreverData (tipoData data);
 tipoHora lerHora(char mensagem[]);
 void escreverHora (tipoHora hora);
 
+void alterarStringMaiusculas(char stringName[]);
+
 #endif // FUNCOES_AUXILIARES_H_INCLUDED
