@@ -1,7 +1,18 @@
 #include <stdio.h>
+#include <ctype.h>
 #include <string.h>
 
 #include "funcoes_auxiliares.h"
+
+void alterarStringMaiusculas(char stringName[])
+{
+    int i;
+
+    for(i=0; i < (int)strlen(stringName); i++)
+    {
+       stringName[i] = toupper(stringName[i]);
+    }
+}
 
 void escreverHora (tipoHora hora)
 {
@@ -133,6 +144,33 @@ tipoData lerData(char mensagem[])
     return data;
 }
 
+/*int lerInteiroString(char mensagem[], int minimo, int maximo, char minimoChar[], char maximoChar[])
+{
+    int numero, controlo;
+    do
+    {
+        printf("%s ((%d)%s a (%d)%s): ", mensagem, minimo, minimoChar, maximo, maximoChar);
+        controlo = scanf ("%d", &numero);  // scanf devolve quantidade de valores vàlidos obtidos
+        limpaBufferStdin();     //limpa todos os caracteres do buffer stdin (nomeadamente o \n)
+
+        if (controlo == 0)
+        {
+            printf("Devera inserir um numero inteiro \n");
+        }
+        else
+        {
+
+            if(numero<minimo || numero>maximo)
+            {
+                printf("Numero invalido. Insira novamente:\n");
+            }
+
+        }
+    }
+    while(numero<minimo || numero>maximo || controlo ==0);
+
+    return numero;
+}*/
 
 // Acrescentada variavel controlo para repetir insercao se ao for inserido numero int
 int lerInteiro(char mensagem[], int minimo, int maximo)
@@ -153,7 +191,7 @@ int lerInteiro(char mensagem[], int minimo, int maximo)
 
             if(numero<minimo || numero>maximo)
             {
-                printf("Numero invalido. Insira novamente:\n");
+                printf("Numero invalido. Insira novamente!!\n");
             }
 
         }
@@ -182,7 +220,7 @@ float lerFloat(char mensagem[], float minimo, float maximo)
 
             if(numero<minimo || numero>maximo)
             {
-                printf("Numero invalido. Insira novamente:\n");
+                printf("Numero invalido. Insira novamente!!\n");
             }
 
         }
@@ -205,7 +243,7 @@ void lerString(char mensagem[], char vetorCaracteres[], int maximoCaracteres)
 
         if (tamanhoString == 1)
         {
-            printf("Nao foram introduzidos caracteres!!! . apenas carregou no ENTER \n\n");  // apenas faz sentido limpar buffer se a ficarem caracteres
+            printf("Nao foram introduzidos caracteres!! Apenas carregou no ENTER \n\n");  // apenas faz sentido limpar buffer se a ficarem caracteres
         }
 
     }
