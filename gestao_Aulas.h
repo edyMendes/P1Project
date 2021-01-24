@@ -18,13 +18,13 @@ typedef struct
     tipoData data;  //data da aula
     tipoHora horaInicio;
     tipoHora horaFim;
-    char estadoAula;    //agendada, a decorrer, realizada
-    char gravacao;  //(S/N)
+    int estadoAula;    //agendada, a decorrer, realizada
+    int gravacao;  //(S/N)
 } tipoAulas;
 
-void lerDadosAula(tipoAulas *pAula);
-
-
-
+int menuTipoAula(tipoUCs vetorUC[], int i);
+void lerDadosAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetorUC[], int quantUCs);
+int procuraAulaNome(tipoAulas vetorAula[], int quantAulas, char nome[]);
+tipoAulas *acrescentarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetorUC[], int quantUCs);
 
 #endif // GESTAO_AULAS_H_INCLUDED

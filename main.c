@@ -68,6 +68,7 @@ int main()
                 switch(opcaoAulas)
                 {
                 case 'I':  // Inserir UC
+                    vetorAulas = acrescentarAula(vetorAulas, &quantAulasAgendadas, vetorUCS, quantUCs);
                     break;
                 case 'A':  // alterar UC
                     break;
