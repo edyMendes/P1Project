@@ -71,6 +71,7 @@ int main()
                     vetorAulas = acrescentarAula(vetorAulas, &quantAulasAgendadas, vetorUCs, quantUCs);
                     break;
                 case 'A':  // alterar Aula
+                    alterarAula(vetorAulas, &quantAulasAgendadas, vetorUCs, quantUCs);
                     break;
                 case 'E':  // eliminar Aula
                     vetorAulas = eliminarAula(vetorAulas, &quantAulasAgendadas);
@@ -79,9 +80,11 @@ int main()
                     mostrarDadosAulas(vetorAulas, quantAulasAgendadas);
                     break;
                 case 'G':   // Gravar dados das Aulas (ficheiro)
-                    escreverFicheiroTexto(vetorAulas, quantAulasAgendadas);
+                    escreverFicheiroTextoAulas(vetorAulas, quantAulasAgendadas);
+                    escreverFicheiroBinarioAulas(vetorAulas, quantAulasAgendadas);
                     break;
                 case 'L':   // Ler dados das Aulas (ficheiro)/Carregar ficheiro das Aulas
+                    vetorAulas = lerFicheiroBinarioAulas(vetorAulas, &quantAulasAgendadas);
                     break;
                 case 'V':    // Voltar para o menu principal
                     break;

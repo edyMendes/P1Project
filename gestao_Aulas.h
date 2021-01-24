@@ -32,7 +32,12 @@ void mostrarDadosAulas(tipoAulas vetorAula[], int quantAulas);
 
 tipoAulas *eliminarAula(tipoAulas vetorAula[], int *quantAulas);
 
-void escreverFicheiroBinario(tipoAulas vetorAula[], int quantAulas);
-void escreverFicheiroTexto(tipoAulas vetorAula[], int quantAulas);
+int menuAlterarAula(tipoAulas vetorAula[], int i);
+void alterarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetorUC[], int quantUCs);
+
+void escreverFicheiroBinarioAulas(tipoAulas vetorAula[], int quantAulas);
+void escreverFicheiroTextoAulas(tipoAulas vetorAula[], int quantAulas);
+
+tipoAulas *lerFicheiroBinarioAulas(tipoAulas vetorAula[], int *quantAulas);
 
 #endif // GESTAO_AULAS_H_INCLUDED

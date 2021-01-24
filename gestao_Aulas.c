@@ -7,7 +7,36 @@
 #include "gestao_Aulas.h"
 #include "funcoes_auxiliares.h"
 
-void escreverFicheiroTexto(tipoAulas vetorAula[], int quantAulas)
+tipoAulas *lerFicheiroBinarioAulas(tipoAulas vetorAula[], int *quantAulas)
+{
+    FILE *ficheiro;
+    tipoAulas *pAula;
+
+    ficheiro = fopen("aulas.dat", "rb");
+    if(ficheiro == NULL)
+    {
+        printf("\n\nERRO: Impossivel abrir ficheiro!!");
+    }
+    else
+    {
+        fread(&(*quantAulas), sizeof(int), 1, ficheiro);
+        pAula = vetorAula;
+        vetorAula = realloc(vetorAula, (*quantAulas)*sizeof(tipoAulas));
+        if(vetorAula == NULL && *quantAulas != 0)
+        {
+            printf("\n\nERRO: Erro ao reservar memoria!!");
+            vetorAula = pAula;
+        }
+        else
+        {
+            fread(vetorAula, sizeof(tipoAulas), *quantAulas, ficheiro);
+        }
+        fclose(ficheiro);
+    }
+    return vetorAula;
+}
+
+void escreverFicheiroTextoAulas(tipoAulas vetorAula[], int quantAulas)
 {
     FILE *ficheiro;
     int i;
@@ -23,7 +52,6 @@ void escreverFicheiroTexto(tipoAulas vetorAula[], int quantAulas)
         for(i=0; i<quantAulas; i++)
         {
             fprintf(ficheiro,"\n\n**************** /* %s */ ****************", vetorAula[i].designacao);
-            fprintf(ficheiro, "\nAulas agendadas: %d", quantAulas);
 
             fprintf(ficheiro, "\nCodigo da UC: %2d", vetorAula[i].codigoUC);
 
@@ -64,7 +92,7 @@ void escreverFicheiroTexto(tipoAulas vetorAula[], int quantAulas)
     }
 }
 
-void escreverFicheiroBinario(tipoAulas vetorAula[], int quantAulas)
+void escreverFicheiroBinarioAulas(tipoAulas vetorAula[], int quantAulas)
 {
     FILE *ficheiro;
 
@@ -82,9 +110,166 @@ void escreverFicheiroBinario(tipoAulas vetorAula[], int quantAulas)
     }
 }
 
-//void lerFicheiroBinarioUCs(tipoUCs vetorUc[], int *quantUcs)
 
-//void gravarFicheiroBinarioUCs(tipoUCs vetorUC[], int quantUCs)
+
+
+
+
+void alterarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetorUC[], int quantUCs)
+{
+    int codigoUC, posicaoUC, posicaoAula, opcao, erro, duracaoAula;
+    char designacaoAula[MAX_STRING];
+
+    printf("\nIndique a designacao da aula a alterar");
+    lerString("\nDesignacao da aula: ", designacaoAula, MAX_STRING);
+    posicaoAula = procuraAulaNome(vetorAula, *quantAulas, designacaoAula);
+    if (posicaoAula == -1)
+    {
+        printf("\n\nERRO: A aula nao existe!!");
+    }
+    else
+    {
+        opcao = menuAlterarAula(vetorAula, posicaoAula);
+
+        switch(opcao)
+        {
+        case 1: //Codigo da UC
+            codigoUC = lerInteiro("\nCodigo da UC: ", MIN_CODUC, MAX_CODUC);
+            posicaoUC = procuraUCCodigo(vetorUC, quantUCs, codigoUC);
+            if(posicaoUC == -1)
+            {
+                printf("\n\nERRO: A UC nao existe!!");
+            }
+            else
+            {
+                vetorAula[posicaoAula].codigoUC = codigoUC;
+            }
+            break;
+        case 2: //Tipo de aula
+            do
+            {
+                posicaoUC = procuraUCCodigo(vetorUC, quantUCs, vetorAula[posicaoAula].codigoUC);
+
+                opcao = menuTipoAula(vetorUC, posicaoUC);
+                switch(opcao)
+                {
+                case 1: //T
+                    if(vetorUC[posicaoUC].quantPrevistaT == 0)
+                    {
+                        printf("\n\nERRO: A UC nao tem quantidade prevista de aulas T!!");
+                        erro=1;
+                    }
+                    else
+                    {
+                        vetorAula[posicaoAula].tipoAula = 1;
+                        vetorUC[posicaoUC].quantPrevistaT -= 1;
+                        duracaoAula = vetorUC[posicaoUC].duracaoT;
+                        erro=0;
+                    }
+                    break;
+                case 2: //TP
+                    if(vetorUC[posicaoUC].quantPrevistaTP == 0)
+                    {
+                        printf("\n\nERRO: A UC nao tem quantidade prevista de aulas TP!!");
+                        erro=1;
+                    }
+                    else
+                    {
+                        vetorAula[posicaoAula].tipoAula = 2;
+                        vetorUC[posicaoUC].quantPrevistaTP -= 1;
+                        duracaoAula = vetorUC[posicaoUC].duracaoTP;
+                        erro=0;
+                    }
+                    break;
+                case 3: //PL
+                    if(vetorUC[posicaoUC].quantPrevistaPL == 0)
+                    {
+                        printf("\n\nERRO: A UC nao tem quantidade prevista de aulas PL!!");
+                        erro=1;
+                    }
+                    else
+                    {
+                        vetorAula[posicaoAula].tipoAula = 3;
+                        vetorUC[posicaoUC].quantPrevistaPL -= 1;
+                        duracaoAula = vetorUC[posicaoUC].duracaoPL;
+                        erro=0;
+                    }
+                    break;
+                }
+            }
+            while(erro==1);
+            break;
+        case 3: //Nome do docente
+            lerString("\nNome do Docente: ", vetorAula[posicaoAula].nomeDocente, MAX_STRING);
+            break;
+        case 4: //Data da aula
+            vetorAula[posicaoAula].data = lerData("\nData da aula");
+            break;
+        case 5: //Hora de inicio da aula
+            posicaoUC = procuraUCCodigo(vetorUC, quantUCs, vetorAula[posicaoAula].codigoUC);
+
+            switch(vetorAula[posicaoAula].tipoAula)
+            {
+            case 1: //T
+                if(vetorUC[posicaoUC].quantPrevistaT == 0)
+                {
+                    duracaoAula = vetorUC[posicaoUC].duracaoT;
+                }
+                break;
+            case 2: //TP
+                if(vetorUC[posicaoUC].quantPrevistaTP == 0)
+                {
+                    duracaoAula = vetorUC[posicaoUC].duracaoTP;
+                }
+                break;
+            case 3: //PL
+                if(vetorUC[posicaoUC].quantPrevistaPL == 0)
+                {
+                    duracaoAula = vetorUC[posicaoUC].duracaoPL;
+                }
+                break;
+            }
+
+            if(vetorUC[posicaoUC].regime == 1)
+            {
+                vetorAula[posicaoAula].horaInicio = lerHora("\nHora da aula", MIN_HORADIURNO, MAX_HORADIURNO);
+            }
+            else
+            {
+                vetorAula[posicaoAula].horaInicio = lerHora("\nHora da aula", MIN_HORAPOSLABORAL, MAX_HORAPOSLABORAL);
+            }
+
+            vetorAula[posicaoAula].horaFim = contarHoraFim(vetorAula[posicaoAula].horaInicio, duracaoAula);
+
+            break;
+        }
+
+        printf("\n\nAlteracao da aula efetuada com sucesso!!");
+    }
+}
+
+int menuAlterarAula(tipoAulas vetorAula[], int i)
+{
+    int opcao;
+
+    printf("\n\n**************** /* %s */ ****************", vetorAula[i].designacao);
+    printf("\nIndique o campo que deseja alterar: ");
+    printf("\n\t(1)Codigo da UC_________(%d)", vetorAula[i].codigoUC);
+    printf("\n\t(2)Tipo de aula_________(%d)", vetorAula[i].tipoAula);
+    printf("\n\t(3)Nome do docente______(%s)", vetorAula[i].nomeDocente);
+    printf("\n\t(4)Data da aula_________(%02d-%02d-%d)", vetorAula[i].data.dia, vetorAula[i].data.mes, vetorAula[i].data.ano);
+    printf("\n\t(5)Hora de inicio_______(%02d:%02d)", vetorAula[i].horaInicio.hora, vetorAula[i].horaInicio.minuto);
+
+    opcao = lerInteiro("\n\t\t\tOPCAO ->", 1, 5);
+
+    return opcao;
+}
+
+
+
+
+
+
 
 tipoAulas *eliminarAula(tipoAulas vetorAula[], int *quantAulas)
 {
