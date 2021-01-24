@@ -19,7 +19,7 @@ void escreverHora (tipoHora hora)
     printf("%02d:%02d", hora.hora, hora.minuto);
 }
 
-tipoHora lerHora(char mensagem[])
+tipoHora lerHora(char mensagem[], int minHora, int maxHora)
 {
     tipoHora hora;
     int controlo, falha;
@@ -40,9 +40,9 @@ tipoHora lerHora(char mensagem[])
         }
         while (controlo != 2);
 
-        if (hora.hora < MIN_HORA || hora.hora > MAX_HORA)
+        if (hora.hora < minHora || hora.hora > maxHora)
         {
-            printf("\n\nERRO: Hora invalida [%d, %d]\n", MIN_HORA, MAX_HORA);
+            printf("\n\nERRO: Hora invalida [%d, %d]\n", minHora, maxHora);
             falha = 1;
         }
         else

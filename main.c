@@ -12,14 +12,14 @@ char menuAulas();
 
 int main()
 {
-    tipoUCs vetorUCS[MAX_UCS];
+    tipoUCs vetorUCs[MAX_UCS];
     int quantUCs=0;
     tipoAulas *vetorAulas;
     int quantAulasAgendadas=0, quantAulasRealizadas=0, quantAulasGravadas=0;
 
     vetorAulas = NULL;
 
-    char opcao, opcaoUcs, opcaoAulas;
+    char opcao, opcaoUCs, opcaoAulas;
 
     do
     {
@@ -30,34 +30,34 @@ int main()
         case 'U':
             do
             {
-                opcaoUcs = menuUCs(quantUCs);
+                opcaoUCs = menuUCs(quantUCs);
 
-                switch(opcaoUcs)
+                switch(opcaoUCs)
                 {
                 case 'I':  // Inserir UC
-                    acrescentarUC(vetorUCS, &quantUCs);
+                    acrescentarUC(vetorUCs, &quantUCs);
                     break;
                 case 'A':  // alterar UC
-                    alterarUc(vetorUCS, quantUCs);
+                    alterarUc(vetorUCs, quantUCs);
                     break;
                 case 'E':  // eliminar UC
-                    //eliminarUC(vetorUCS, &quantUCs);
+                    //eliminarUC(vetorUCs, &quantUCs);
                     break;
                 case 'M':   // Mostrar UCs
-                    mostrarDadosUCs(vetorUCS, quantUCs);
+                    mostrarDadosUCs(vetorUCs, quantUCs);
                     break;
                 case 'G':   // Gravar dados das UCs (ficheiro)
-                    gravarFicheiroBinarioUCs(vetorUCS, quantUCs);
+                    gravarFicheiroBinarioUCs(vetorUCs, quantUCs);
                     break;
                 case 'L':   // Ler dados das UCs (ficheiro)/Carregar ficheiro das UCs
-                    lerFicheiroBinarioUCs(vetorUCS, &quantUCs);
+                    lerFicheiroBinarioUCs(vetorUCs, &quantUCs);
                     break;
-                case 'F':    // Terminar o programa
+                case 'V':    // Terminar o programa
                     break;
                 }
 
             }
-            while (opcaoUcs != 'F');
+            while (opcaoUCs != 'V');
 
             break;
         case 'A':
@@ -68,9 +68,10 @@ int main()
                 switch(opcaoAulas)
                 {
                 case 'I':  // Inserir UC
-                    vetorAulas = acrescentarAula(vetorAulas, &quantAulasAgendadas, vetorUCS, quantUCs);
+                    vetorAulas = acrescentarAula(vetorAulas, &quantAulasAgendadas, vetorUCs, quantUCs);
                     break;
                 case 'A':  // alterar UC
+                    quantAulasGravadas = menuTipoAula(vetorUCs, quantUCs-1);//eliminar o codigo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     break;
                 case 'E':  // eliminar UC
                     break;
@@ -80,11 +81,11 @@ int main()
                     break;
                 case 'L':   // Ler dados das UCs (ficheiro)/Carregar ficheiro das UCs
                     break;
-                case 'F':    // Terminar o programa
+                case 'V':    // Terminar o programa
                     break;
                 }
             }
-            while (opcaoAulas != 'F');
+            while (opcaoAulas != 'V');
 
             break;
         case 'F':
@@ -104,14 +105,14 @@ char menuAulas()
 
     do
     {
-        printf("\n\n******** MENU AULAS ONLINE ********\n");
+        printf("\n\n******** /* MENU AULAS ONLINE */ ********\n");
         printf("\n(I)nserir aulas online");
         printf("\n(A)lterar aula online");
         printf("\n(E)liminar aula online");
         printf("\n(M)ostrar aulas ");
         printf("\n(G)ravar dados para o ficheiro");
         printf("\n(L)er dados do Ficheiro");
-        printf("\n(F)im");
+        printf("\n(V)oltar ao Menu Principal");
         printf("\n\t\tOPCAO -> ");
 
         scanf("%c", &opcao);
@@ -119,12 +120,12 @@ char menuAulas()
 
         opcao = toupper (opcao);
 
-        if (strchr("IAEMGLF", opcao) == NULL)
+        if (strchr("IAEMGLV", opcao) == NULL)
         {
             printf("\n\nERRO: Opcao Invalida!!");
         }
     }
-    while (strchr("IAEMGLF", opcao) == NULL);
+    while (strchr("IAEMGLV", opcao) == NULL);
 
     return opcao;
 }
@@ -135,7 +136,7 @@ char menuUCs(int quantUCs)
 
     do
     {
-        printf("\n\n******** MENU UCS ********\n");
+        printf("\n\n******** /* MENU UCS */ ********\n");
         printf("UCs Inseridas: %d\n", quantUCs);
         printf("\n(I)nserir UC");
         printf("\n(A)lterar UC");
@@ -143,7 +144,7 @@ char menuUCs(int quantUCs)
         printf("\n(M)ostrar UCs ");
         printf("\n(G)ravar dados para o ficheiro");
         printf("\n(L)er dados do Ficheiro");
-        printf("\n(F)im");
+        printf("\n(V)oltar ao Menu Principal");
         printf("\n\t\tOPCAO -> ");
 
         scanf("%c", &opcao);
@@ -151,12 +152,12 @@ char menuUCs(int quantUCs)
 
         opcao = toupper (opcao);
 
-        if (strchr("IAEMGLF", opcao) == NULL)
+        if (strchr("IAEMGLV", opcao) == NULL)
         {
             printf("\n\nERRO: Opcao Invalida!!");
         }
     }
-    while (strchr("IAEMGLF", opcao) == NULL);
+    while (strchr("IAEMGLV", opcao) == NULL);
 
     return opcao;
 }
@@ -167,7 +168,7 @@ char menuPrincipal(int quantUCs, int quantAulasAgendadas, int quantAulasRealizad
 
     do
     {
-        printf("\n\n******** MENU PRINCIPAL ********\n");
+        printf("\n\n******** /* MENU PRINCIPAL */ ********\n");
         printf("\nQuantidade de UCs: %d\n", quantUCs);
         printf("\nQuantidade de aulas agendadas: %d", quantAulasAgendadas);
         printf("\nQuantidade de aulas realizadas: %d", quantAulasRealizadas);

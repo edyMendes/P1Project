@@ -4,8 +4,10 @@
 #define MINANO 2000
 #define MAXANO 2500
 
-#define MIN_HORA 8
-#define MAX_HORA 24
+#define MIN_HORADIURNO 8
+#define MAX_HORADIURNO 18
+#define MIN_HORAPOSLABORAL 18
+#define MAX_HORAPOSLABORAL 24
 #define MIN_MINUTO 0
 #define MAX_MINUTO 59
 
@@ -27,7 +29,7 @@ void limpaBufferStdin(void);
 tipoData lerData(char mensagem[]);
 void escreverData (tipoData data);
 
-tipoHora lerHora(char mensagem[]);
+tipoHora lerHora(char mensagem[], int minHora, int maxHora);
 void escreverHora (tipoHora hora);
 
 void alterarStringMaiusculas(char stringName[]);

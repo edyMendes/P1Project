@@ -23,7 +23,6 @@ typedef struct
 } tipoAulas;
 
 int menuTipoAula(tipoUCs vetorUC[], int i);
-void lerDadosAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetorUC[], int quantUCs);
 int procuraAulaNome(tipoAulas vetorAula[], int quantAulas, char nome[]);
 tipoAulas *acrescentarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetorUC[], int quantUCs);
 

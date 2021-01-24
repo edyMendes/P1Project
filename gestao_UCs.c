@@ -213,15 +213,15 @@ int menuAlterarUCs(tipoUCs vetorUC[], int i)
 {
     int opcao;
 
-    printf("\n\n**************** %s ****************", vetorUC[i].designacao);
+    printf("\n\n**************** /* %s */ ****************", vetorUC[i].designacao);
     printf("\nIndique o campo que deseja alterar: ");
-    printf("\n\t(1)Designacao da UC_________________________________(%s)", vetorUC[i].designacao);
-    printf("\n\t(2)Tipo de UC_______________________________________(%d)", vetorUC[i].tipoUC);
-    printf("\n\t(3)Semestre da UC___________________________________(%d)", vetorUC[i].semestre);
-    printf("\n\t(4)Regime da UC_____________________________________(%d)", vetorUC[i].regime);
-    printf("\n\t(5)Quantidade Prevista de aulas T da UC_____________(%d)", vetorUC[i].quantPrevistaT);
-    printf("\n\t(6)Quantidade Prevista de aulas TP da UC____________(%d)", vetorUC[i].quantPrevistaTP);
-    printf("\n\t(7)Quantidade Prevista de aulas PL da UC____________(%d)", vetorUC[i].quantPrevistaPL);
+    printf("\n\t(1)Designacao da UC_____________________________(%s)", vetorUC[i].designacao);
+    printf("\n\t(2)Tipo de UC___________________________________(%d)", vetorUC[i].tipoUC);
+    printf("\n\t(3)Semestre da UC_______________________________(%d)", vetorUC[i].semestre);
+    printf("\n\t(4)Regime da UC_________________________________(%d)", vetorUC[i].regime);
+    printf("\n\t(5)Quantidade Prevista de aulas T da UC_________(%d)", vetorUC[i].quantPrevistaT);
+    printf("\n\t(6)Quantidade Prevista de aulas TP da UC________(%d)", vetorUC[i].quantPrevistaTP);
+    printf("\n\t(7)Quantidade Prevista de aulas PL da UC________(%d)", vetorUC[i].quantPrevistaPL);
 
     opcao = lerInteiro("\n\t\t\tOPCAO ->", 1, 7);
 
@@ -260,7 +260,7 @@ void mostrarDadosUCs (tipoUCs vetorUC[], int quantUCs)
     }
     else
     {
-        printf("\n\n**************** DADOS DAS UCS ****************\n");
+        printf("\n\n**************** /* DADOS DAS UCS */ ****************\n");
         for (i=0; i < quantUCs; i++)
         {
             escreverDadosUC(vetorUC[i]);
@@ -270,7 +270,7 @@ void mostrarDadosUCs (tipoUCs vetorUC[], int quantUCs)
 
 void escreverDadosUC (tipoUCs uc)
 {
-    printf("\n\n**************** %s ****************", uc.designacao);
+    printf("\n\n**************** /* %s */ ****************", uc.designacao);
     printf("\nCodigo: %2d", uc.codigoUC);
 
     if (uc.tipoUC == 1)
@@ -293,7 +293,7 @@ void escreverDadosUC (tipoUCs uc)
         printf("\nRegime: Pos-Laboral");
     }
 
-    printf("\n******** QUANTIDADE PREVISTA DE AULAS ********");
+    printf("\n******** /* QUANTIDADE PREVISTA DE AULAS */ ********");
     if(uc.quantPrevistaT != 0)
     {
         printf("\nEnsino Teorico(T): %d", uc.quantPrevistaT);
@@ -349,7 +349,7 @@ tipoUCs lerDadosUc(tipoUCs vetorUC[], int *quantUCs)
     int codigoUC, posicao;
     uc.duracaoT = 0, uc.duracaoTP = 0, uc.duracaoPL = 0;
 
-    printf("\n**************** NOVA UC ****************\n");
+    printf("\n**************** /* NOVA UC */ ****************\n");
     do
     {
         codigoUC = lerInteiro("\nCodigo da UC: ", MIN_CODUC, MAX_CODUC);

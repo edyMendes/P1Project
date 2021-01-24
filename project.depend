@@ -1,13 +1,13 @@
 # depslib dependency file v1.0
-1611443555 source:c:\projeto_prog1\project\funcoes_auxiliares.c
+1611485913 source:c:\projeto_prog1\project\funcoes_auxiliares.c
 	<stdio.h>
 	<ctype.h>
 	<string.h>
 	"funcoes_auxiliares.h"
 
-1611443555 c:\projeto_prog1\project\funcoes_auxiliares.h
+1611485913 c:\projeto_prog1\project\funcoes_auxiliares.h
 
-1611453802 source:c:\projeto_prog1\project\main.c
+1611488416 source:c:\projeto_prog1\project\main.c
 	<stdio.h>
 	<stdlib.h>
 	<ctype.h>
@@ -15,22 +15,21 @@
 	"gestao_UCs.h"
 	"gestao_Aulas.h"
 
-1611443555 c:\projeto_prog1\project\gestao_ucs.h
+1611485913 c:\projeto_prog1\project\gestao_ucs.h
 	"funcoes_auxiliares.h"
 
-1611451762 c:\projeto_prog1\project\gestao_aulas.h
+1611487620 c:\projeto_prog1\project\gestao_aulas.h
 	"funcoes_auxiliares.h"
 	"gestao_UCs.h"
 
-1611454224 source:c:\projeto_prog1\project\gestao_aulas.c
+1611487423 source:c:\projeto_prog1\project\gestao_aulas.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"gestao_Aulas.h"
-	"gestao_UCs.h"
 	"funcoes_auxiliares.h"
 
-1611443555 source:c:\projeto_prog1\project\gestao_ucs.c
+1611487950 source:c:\projeto_prog1\project\gestao_ucs.c
 	<stdio.h>
 	<ctype.h>
 	<string.h>
