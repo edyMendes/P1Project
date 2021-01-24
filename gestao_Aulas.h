@@ -24,6 +24,15 @@ typedef struct
 
 int menuTipoAula(tipoUCs vetorUC[], int i);
 int procuraAulaNome(tipoAulas vetorAula[], int quantAulas, char nome[]);
+tipoHora contarHoraFim(tipoHora horaInicio, int duracaoAula);
 tipoAulas *acrescentarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetorUC[], int quantUCs);
+
+void escreverDadosAula (tipoAulas aula);
+void mostrarDadosAulas(tipoAulas vetorAula[], int quantAulas);
+
+tipoAulas *eliminarAula(tipoAulas vetorAula[], int *quantAulas);
+
+void escreverFicheiroBinario(tipoAulas vetorAula[], int quantAulas);
+void escreverFicheiroTexto(tipoAulas vetorAula[], int quantAulas);
 
 #endif // GESTAO_AULAS_H_INCLUDED

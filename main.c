@@ -8,7 +8,7 @@
 
 char menuPrincipal(int quantUCs, int quantAulasAgendadas, int quantAulasRealizadas, int quantAulasGravadas);
 char menuUCs(int quantUCs);
-char menuAulas();
+char menuAulas(int quantAulasAgendadas, int quantAulasRealizadas, int quantAulasGravadas);
 
 int main()
 {
@@ -63,25 +63,27 @@ int main()
         case 'A':
             do
             {
-                opcaoAulas = menuAulas();
+                opcaoAulas = menuAulas(quantAulasAgendadas, quantAulasRealizadas, quantAulasGravadas);
 
                 switch(opcaoAulas)
                 {
-                case 'I':  // Inserir UC
+                case 'I':  // Inserir Aula
                     vetorAulas = acrescentarAula(vetorAulas, &quantAulasAgendadas, vetorUCs, quantUCs);
                     break;
-                case 'A':  // alterar UC
-                    quantAulasGravadas = menuTipoAula(vetorUCs, quantUCs-1);//eliminar o codigo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                case 'A':  // alterar Aula
                     break;
-                case 'E':  // eliminar UC
+                case 'E':  // eliminar Aula
+                    vetorAulas = eliminarAula(vetorAulas, &quantAulasAgendadas);
                     break;
-                case 'M':   // Mostrar UCs
+                case 'M':   // Mostrar Aulas
+                    mostrarDadosAulas(vetorAulas, quantAulasAgendadas);
                     break;
-                case 'G':   // Gravar dados das UCs (ficheiro)
+                case 'G':   // Gravar dados das Aulas (ficheiro)
+                    escreverFicheiroTexto(vetorAulas, quantAulasAgendadas);
                     break;
-                case 'L':   // Ler dados das UCs (ficheiro)/Carregar ficheiro das UCs
+                case 'L':   // Ler dados das Aulas (ficheiro)/Carregar ficheiro das Aulas
                     break;
-                case 'V':    // Terminar o programa
+                case 'V':    // Voltar para o menu principal
                     break;
                 }
             }
@@ -99,13 +101,16 @@ int main()
     return 0;
 }
 
-char menuAulas()
+char menuAulas(int quantAulasAgendadas, int quantAulasRealizadas, int quantAulasGravadas)
 {
     char opcao;
 
     do
     {
         printf("\n\n******** /* MENU AULAS ONLINE */ ********\n");
+        printf("Aulas Agendadas: %d\n", quantAulasAgendadas);
+        printf("Aulas Realizadas: %d\n", quantAulasRealizadas);
+        printf("Aulas Gravadas: %d\n", quantAulasGravadas);
         printf("\n(I)nserir aulas online");
         printf("\n(A)lterar aula online");
         printf("\n(E)liminar aula online");

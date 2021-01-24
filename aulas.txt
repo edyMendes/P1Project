@@ -1,0 +1,11 @@
+
+
+**************** /* tp3 */ ****************
+Aulas agendadas: 1
+Codigo da UC:  1
+Tipo: PL
+Nome do Docente: edgar
+Data da aula: 22-10-2000
+Hora do inicio da aula: 10:30
+Hora do fim da aula: 13:30
+Estado da aula: Agendada
