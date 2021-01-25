@@ -19,26 +19,33 @@ typedef struct
     tipoHora horaInicio;
     tipoHora horaFim;
     int estadoAula;    //agendada, a decorrer, realizada
-    int gravacao;  //(S/N)
+    char gravacao;  //(S/N)
 } tipoAulas;
 
 int menuTipoAula(tipoUCs vetorUC[], int i);
+int calcularQuantAulas(int quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas);
 int procuraAulaNome(tipoAulas vetorAula[], int quantAulas, char nome[]);
 tipoHora contarHoraFim(tipoHora horaInicio, int duracaoAula);
-int validarDataHora(tipoAulas vetorAula[], int quantAulas, tipoData data, tipoHora horaInicio, tipoHora horaFim);
-tipoAulas *acrescentarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetorUC[], int quantUCs);
+int validarDataHora(tipoAulas vetorAula[], int quantAulas, tipoUCs vetorUC[], int quantUCs, tipoData data, tipoHora horaInicio, tipoHora horaFim);
+tipoAulas *acrescentarAulaAgendada(tipoAulas vetorAula[], int *quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas, tipoUCs vetorUC[], int quantUCs);
+
+char menuGravacaoAula(void);
+void acrescentarAulaDecorrer(tipoAulas vetorAula[], int *quantAulasAgendadas, int *quantAulasDecorrer, int quantAulasRealizadas);
+
+void acrescentarAulaRealizada(tipoAulas vetorAula[], int quantAulasAgendadas, int *quantAulasDecorrer, int *quantAulasRealizadas, int *quantAulasGravadas);
 
 void escreverDadosAula (tipoAulas aula);
-void mostrarDadosAulas(tipoAulas vetorAula[], int quantAulas);
+void mostrarDadosAulas(tipoAulas vetorAula[], int quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas);
 
-tipoAulas *eliminarAula(tipoAulas vetorAula[], int *quantAulas);
+tipoAulas *eliminarAula(tipoAulas vetorAula[], int *quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas);
 
 int menuAlterarAula(tipoAulas vetorAula[], int i);
-void alterarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetorUC[], int quantUCs);
+void alterarAula(tipoAulas vetorAula[], int *quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas, tipoUCs vetorUC[], int quantUCs);
 
-void escreverFicheiroBinarioAulas(tipoAulas vetorAula[], int quantAulas);
-void escreverFicheiroTextoAulas(tipoAulas vetorAula[], int quantAulas);
+void escreverFicheiroBinarioAulas(tipoAulas vetorAula[], int quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas);
+void escreverFicheiroTextoAulas(tipoAulas vetorAula[], int quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas);
 
-tipoAulas *lerFicheiroBinarioAulas(tipoAulas vetorAula[], int *quantAulas);
+void procurarEstadosAulas(tipoAulas vetorAula[], int *quantAulas, int *quantAulasAgendadas, int *quantAulasDecorrer, int *quantAulasRealizadas);
+tipoAulas *lerFicheiroBinarioAulas(tipoAulas vetorAula[], int *quantAulas, int *quantAulasAgendadas, int *quantAulasDecorrer, int *quantAulasRealizadas);
 
 #endif // GESTAO_AULAS_H_INCLUDED

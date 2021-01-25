@@ -7,24 +7,26 @@
 
 1611498283 c:\projeto_prog1\project\funcoes_auxiliares.h
 
-1611519993 source:c:\projeto_prog1\project\main.c
+1611586686 source:c:\projeto_prog1\project\main.c
 	<stdio.h>
 	<stdlib.h>
 	<ctype.h>
 	<string.h>
 	"gestao_UCs.h"
 	"gestao_Aulas.h"
+	"gestao_Alunos.h"
 
 1611485913 c:\projeto_prog1\project\gestao_ucs.h
 	"funcoes_auxiliares.h"
 
-1611517901 c:\projeto_prog1\project\gestao_aulas.h
+1611588182 c:\projeto_prog1\project\gestao_aulas.h
 	"funcoes_auxiliares.h"
 	"gestao_UCs.h"
 
-1611487423 source:c:\projeto_prog1\project\gestao_aulas.c
+1611588863 source:c:\projeto_prog1\project\gestao_aulas.c
 	<stdio.h>
 	<stdlib.h>
+	<ctype.h>
 	<string.h>
 	"gestao_Aulas.h"
 	"funcoes_auxiliares.h"
@@ -34,5 +36,24 @@
 	<ctype.h>
 	<string.h>
 	"gestao_UCs.h"
+	"funcoes_auxiliares.h"
+
+1611573381 source:c:\projeto_prog1\project\gestao_acessos.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"gestao_Acessos.h"
+	"funcoes_auxiliares.h"
+
+1611572227 c:\projeto_prog1\project\gestao_acessos.h
+
+1611571858 source:c:\projeto_prog1\project\gestao_alunos.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"gestao_Alunos.h"
+	"funcoes_auxiliares.h"
+
+1611570690 c:\projeto_prog1\project\gestao_alunos.h
 	"funcoes_auxiliares.h"
 

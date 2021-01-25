@@ -29,38 +29,32 @@ void escreverDadosAluno(tipoAluno aluno)
 {
     printf("\n\n**************** /* ALUNO %d */ ****************", aluno.numero);
     printf("\nNome: %s", aluno.nome);
-    printf("\nTipo de acesso a aula: ", aluno.acessoAula);
 }
 
 
-tipoAluno *acrescentarAluno(tipoAluno vetorAluno[], int *quantAlunos)
+void acrescentarAluno(tipoAluno vetorAluno[], int *quantAlunos)
 {
-    tipoAluno *pAluno, dados;
     int posicao;
 
-    pAluno = vetorAluno;
-
-    lerDadosAluno(&dados);
-    posicao = procuraAlunoNumero(vetorAluno, *quantAlunos, dados.numero);
-    if(posicao!=-1)
+    if(*quantAlunos==MAX_ALUNOS)
     {
-        printf("\n\nERRO: O aluno já existe!!");
+        printf("\n\nERRO: Impossivel inscrever o aluno!!");
+        printf("\n  O limite dos alunos foi atingido!!\n\n");
     }
     else
     {
-        vetorAluno=realloc(vetorAluno, (*quantAlunos+1)*sizeof(tipoAluno));
-        if(vetorAluno==NULL)
+        vetorAluno[*quantAlunos]=lerDadosAluno();
+        posicao=procuraAlunoNumero(vetorAluno, *quantAlunos, vetorAluno[*quantAlunos].numero);
+
+        if(posicao!=-1)
         {
-            printf("\n\nERRO: Impossivel acrescentar o aluno!!");
-            vetorAluno = pAluno;
+            printf("\n\nERRO: Ja existe um aluno com o numero indicado!!");
         }
         else
         {
-            vetorAluno[*quantAlunos]=dados;
             (*quantAlunos)++;
         }
     }
-    return vetorAluno;
 }
 
 int procuraAlunoNumero(tipoAluno vetorAluno[], int quantAlunos, int numero)
@@ -80,10 +74,13 @@ int procuraAlunoNumero(tipoAluno vetorAluno[], int quantAlunos, int numero)
     return posicao;
 }
 
-void lerDadosAluno(tipoAluno *pAluno)
+tipoAluno lerDadosAluno()
 {
-    pAluno->numero=lerInteiro("\nNumero de Estudante: ", MIN_NUMALUNO, MAX_NUMALUNO);
-    lerString("\nNome do Aluno: ",pAluno->nome, MAX_STRING);
-    pAluno->acessoAula = -1;
+    tipoAluno aluno;
+    printf("\n**************** /* NOVO ALUNO */ ****************\n");
 
+    aluno.numero=lerInteiro("\nNumero de Estudante: ", MIN_NUMALUNO, MAX_NUMALUNO);
+    lerString("\nNome do Aluno: ",aluno.nome, MAX_STRING);
+
+    return aluno;
 }

@@ -2,9 +2,9 @@
 
 **************** /* progpl1 */ ****************
 Codigo da UC:  5
-Tipo: PL
-Nome do Docente: sidolina
+Tipo: TP
+Nome do Docente: Sidolina
 Data da aula: 23-02-2021
 Hora do inicio da aula: 10:30
-Hora do fim da aula: 13:30
+Hora do fim da aula: 12:30
 Estado da aula: Agendada

@@ -17,12 +17,11 @@ int main()
     tipoUCs vetorUCs[MAX_UCS];
     int quantUCs=0;
     tipoAulas *vetorAulas;
-    int quantAulasAgendadas=0, quantAulasRealizadas=0, quantAulasGravadas=0;
-    tipoAluno *vetorAlunos;
+    int quantAulasAgendadas=0, quantAulasDecorrer=0, quantAulasRealizadas=0, quantAulasGravadas=0, quantAulas=0;
+    tipoAluno vetorAlunos[MAX_ALUNOS];
     int quantAlunos=0;
 
     vetorAulas = NULL;
-    vetorAlunos = NULL;
 
     char opcao, opcaoUCs, opcaoAulas, opcaoAlunos;
 
@@ -73,23 +72,29 @@ int main()
                 switch(opcaoAulas)
                 {
                 case 'I':  // Inserir Aula
-                    vetorAulas = acrescentarAula(vetorAulas, &quantAulasAgendadas, vetorUCs, quantUCs);
+                    vetorAulas = acrescentarAulaAgendada(vetorAulas, &quantAulasAgendadas, quantAulasDecorrer, quantAulasRealizadas, vetorUCs, quantUCs);
                     break;
                 case 'A':  // alterar Aula
-                    alterarAula(vetorAulas, &quantAulasAgendadas, vetorUCs, quantUCs);
+                    alterarAula(vetorAulas, &quantAulasAgendadas, quantAulasDecorrer, quantAulasRealizadas, vetorUCs, quantUCs); //acertar codigo da funcao
                     break;
                 case 'E':  // eliminar Aula
-                    vetorAulas = eliminarAula(vetorAulas, &quantAulasAgendadas);
+                    vetorAulas = eliminarAula(vetorAulas, &quantAulasAgendadas, quantAulasDecorrer, quantAulasRealizadas);
+                    break;
+                case 'C':   //Comecar uma aula
+                    acrescentarAulaDecorrer(vetorAulas, &quantAulasAgendadas, &quantAulasDecorrer, quantAulasRealizadas);
+                    break;
+                case 'F':   //Finalizar uma aula
+                    acrescentarAulaRealizada(vetorAulas, quantAulasAgendadas, &quantAulasDecorrer, &quantAulasRealizadas, &quantAulasGravadas);
                     break;
                 case 'M':   // Mostrar Aulas
-                    mostrarDadosAulas(vetorAulas, quantAulasAgendadas);
+                    mostrarDadosAulas(vetorAulas, quantAulasAgendadas, quantAulasDecorrer, quantAulasRealizadas);
                     break;
                 case 'G':   // Gravar dados das Aulas (ficheiro)
-                    escreverFicheiroTextoAulas(vetorAulas, quantAulasAgendadas);
-                    escreverFicheiroBinarioAulas(vetorAulas, quantAulasAgendadas);
+                    escreverFicheiroTextoAulas(vetorAulas, quantAulasAgendadas, quantAulasDecorrer, quantAulasRealizadas);
+                    escreverFicheiroBinarioAulas(vetorAulas, quantAulasAgendadas, quantAulasDecorrer, quantAulasRealizadas);
                     break;
                 case 'L':   // Ler dados das Aulas (ficheiro)/Carregar ficheiro das Aulas
-                    vetorAulas = lerFicheiroBinarioAulas(vetorAulas, &quantAulasAgendadas);
+                    vetorAulas = lerFicheiroBinarioAulas(vetorAulas, &quantAulas, &quantAulasAgendadas, &quantAulasDecorrer, &quantAulasRealizadas);
                     break;
                 case 'V':    // Voltar para o menu principal
                     break;
@@ -106,22 +111,22 @@ int main()
 
                 switch(opcaoAlunos)
                 {
-                case 'I':  // Inserir Aula
-                    vetorAlunos = acrescentarAluno(vetorAlunos, &quantAlunos);
+                case 'I':  // Inserir aluno
+                    acrescentarAluno(vetorAlunos, &quantAlunos);
                     break;
-                case 'A':  // alterar Aula
+                case 'A':  // alterar aluno
 
                     break;
-                case 'E':  // eliminar Aula
+                case 'E':  // eliminar aluno
 
                     break;
-                case 'M':   // Mostrar Aulas
+                case 'M':   // Mostrar aluno
                     mostrarDadosAlunos(vetorAlunos, quantAlunos);
                     break;
-                case 'G':   // Gravar dados das Aulas (ficheiro)
+                case 'G':   // Gravar dados dos alunos (ficheiro)
 
                     break;
-                case 'L':   // Ler dados das Aulas (ficheiro)/Carregar ficheiro das Aulas
+                case 'L':   // Ler dados dos alunos (ficheiro)/Carregar ficheiro dos alunos
 
                     break;
                 case 'V':    // Voltar para o menu principal
@@ -133,7 +138,7 @@ int main()
 
         case 'L':   //Ler os dados de todos os ficheiros
             lerFicheiroBinarioUCs(vetorUCs, &quantUCs);
-            vetorAulas = lerFicheiroBinarioAulas(vetorAulas, &quantAulasAgendadas);
+            vetorAulas = lerFicheiroBinarioAulas(vetorAulas, &quantAulas, &quantAulasAgendadas, &quantAulasDecorrer, &quantAulasRealizadas);
             break;
         case 'F':
             break;
@@ -142,25 +147,23 @@ int main()
     while(opcao != 'F');
 
     free(vetorAulas);
-    free(vetorAlunos);
 
     return 0;
 }
 
-char menuAulas(int quantAulasAgendadas, int quantAulasRealizadas, int quantAulasGravadas)
+
+char menuAlunos(int quantAlunos)
 {
     char opcao;
 
     do
     {
-        printf("\n\n******** /* MENU AULAS ONLINE */ ********\n");
-        printf("Aulas Agendadas: %d\n", quantAulasAgendadas);
-        printf("Aulas Realizadas: %d\n", quantAulasRealizadas);
-        printf("Aulas Gravadas: %d\n", quantAulasGravadas);
-        printf("\n(I)nserir aulas online");
-        printf("\n(A)lterar aula online");
-        printf("\n(E)liminar aula online");
-        printf("\n(M)ostrar aulas ");
+        printf("\n\n******** /* MENU ALUNOS */ ********\n");
+        printf("Alunos Inscritos: %d\n", quantAlunos);
+        printf("\n(I)nserir Aluno");
+        printf("\n(A)lterar Aluno");
+        printf("\n(E)liminar Aluno");
+        printf("\n(M)ostrar Aluno ");
         printf("\n(G)ravar dados para o ficheiro");
         printf("\n(L)er dados do Ficheiro");
         printf("\n(V)oltar ao Menu Principal");
@@ -177,6 +180,43 @@ char menuAulas(int quantAulasAgendadas, int quantAulasRealizadas, int quantAulas
         }
     }
     while (strchr("IAEMGLV", opcao) == NULL);
+
+    return opcao;
+}
+
+
+char menuAulas(int quantAulasAgendadas, int quantAulasRealizadas, int quantAulasGravadas)
+{
+    char opcao;
+
+    do
+    {
+        printf("\n\n******** /* MENU AULAS ONLINE */ ********\n");
+        printf("Aulas Agendadas: %d\n", quantAulasAgendadas);
+        printf("Aulas Realizadas: %d\n", quantAulasRealizadas);
+        printf("Aulas Gravadas: %d\n", quantAulasGravadas);
+        printf("\n(I)nserir aulas online");
+        printf("\n(A)lterar aula online");
+        printf("\n(E)liminar aula online");
+        printf("\n(C)omecar uma aula");
+        printf("\n(F)inalizar uma aula");
+        printf("\n(M)ostrar aulas ");
+        printf("\n(G)ravar dados para o ficheiro");
+        printf("\n(L)er dados do Ficheiro");
+        printf("\n(V)oltar ao Menu Principal");
+        printf("\n\t\tOPCAO -> ");
+
+        scanf("%c", &opcao);
+        limpaBufferStdin();
+
+        opcao = toupper (opcao);
+
+        if (strchr("IAECFMGLV", opcao) == NULL)
+        {
+            printf("\n\nERRO: Opcao Invalida!!");
+        }
+    }
+    while (strchr("IAECFMGLV", opcao) == NULL);
 
     return opcao;
 }
@@ -193,38 +233,6 @@ char menuUCs(int quantUCs)
         printf("\n(A)lterar UC");
         printf("\n(E)liminar UC");
         printf("\n(M)ostrar UCs ");
-        printf("\n(G)ravar dados para o ficheiro");
-        printf("\n(L)er dados do Ficheiro");
-        printf("\n(V)oltar ao Menu Principal");
-        printf("\n\t\tOPCAO -> ");
-
-        scanf("%c", &opcao);
-        limpaBufferStdin();
-
-        opcao = toupper (opcao);
-
-        if (strchr("IAEMGLV", opcao) == NULL)
-        {
-            printf("\n\nERRO: Opcao Invalida!!");
-        }
-    }
-    while (strchr("IAEMGLV", opcao) == NULL);
-
-    return opcao;
-}
-
-char menuAlunos(int quantAlunos)
-{
-    char opcao;
-
-    do
-    {
-        printf("\n\n******** /* MENU ALUNOS */ ********\n");
-        printf("Alunos Inscritos: %d\n", quantAlunos);
-        printf("\n(I)nserir Aluno");
-        printf("\n(A)lterar Aluno");
-        printf("\n(E)liminar Aluno");
-        printf("\n(M)ostrar Aluno ");
         printf("\n(G)ravar dados para o ficheiro");
         printf("\n(L)er dados do Ficheiro");
         printf("\n(V)oltar ao Menu Principal");

@@ -2,12 +2,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <string.h>
 
 #include "gestao_Aulas.h"
 #include "funcoes_auxiliares.h"
 
-tipoAulas *lerFicheiroBinarioAulas(tipoAulas vetorAula[], int *quantAulas)
+tipoAulas *lerFicheiroBinarioAulas(tipoAulas vetorAula[], int *quantAulas, int *quantAulasAgendadas, int *quantAulasDecorrer, int *quantAulasRealizadas)
 {
     FILE *ficheiro;
     tipoAulas *pAula;
@@ -20,6 +21,7 @@ tipoAulas *lerFicheiroBinarioAulas(tipoAulas vetorAula[], int *quantAulas)
     else
     {
         fread(&(*quantAulas), sizeof(int), 1, ficheiro);
+
         pAula = vetorAula;
         vetorAula = realloc(vetorAula, (*quantAulas)*sizeof(tipoAulas));
         if(vetorAula == NULL && *quantAulas != 0)
@@ -31,6 +33,8 @@ tipoAulas *lerFicheiroBinarioAulas(tipoAulas vetorAula[], int *quantAulas)
         {
             fread(vetorAula, sizeof(tipoAulas), *quantAulas, ficheiro);
 
+            procurarEstadosAulas(vetorAula, &(*quantAulas), &(*quantAulasAgendadas), &(*quantAulasDecorrer), &(*quantAulasRealizadas));
+
             printf("\n\nLeitura dos dados das aulas realizada com sucesso!!");
         }
         fclose(ficheiro);
@@ -38,10 +42,32 @@ tipoAulas *lerFicheiroBinarioAulas(tipoAulas vetorAula[], int *quantAulas)
     return vetorAula;
 }
 
-void escreverFicheiroTextoAulas(tipoAulas vetorAula[], int quantAulas)
+void procurarEstadosAulas(tipoAulas vetorAula[], int *quantAulas, int *quantAulasAgendadas, int *quantAulasDecorrer, int *quantAulasRealizadas)
+{
+    int i;
+
+    for(i=0; i<*quantAulas; i++)
+    {
+        switch(vetorAula[i].estadoAula)
+        {
+        case 1:
+            (*quantAulasAgendadas)++;
+            break;
+        case 2:
+            (*quantAulasDecorrer)++;
+            break;
+        case 3:
+            (*quantAulasRealizadas)++;
+            break;
+        }
+    }
+}
+
+void escreverFicheiroTextoAulas(tipoAulas vetorAula[], int quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas)
 {
     FILE *ficheiro;
     int i;
+    int quantAulas=calcularQuantAulas(quantAulasAgendadas, quantAulasDecorrer, quantAulasRealizadas);
 
     ficheiro = fopen("aulas.txt", "w");
 
@@ -94,9 +120,11 @@ void escreverFicheiroTextoAulas(tipoAulas vetorAula[], int quantAulas)
     }
 }
 
-void escreverFicheiroBinarioAulas(tipoAulas vetorAula[], int quantAulas)
+void escreverFicheiroBinarioAulas(tipoAulas vetorAula[], int quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas)
 {
     FILE *ficheiro;
+
+    int quantAulas=calcularQuantAulas(quantAulasAgendadas, quantAulasDecorrer, quantAulasRealizadas);
 
     ficheiro = fopen("aulas.dat", "wb");
 
@@ -120,136 +148,143 @@ void escreverFicheiroBinarioAulas(tipoAulas vetorAula[], int quantAulas)
 
 
 
-void alterarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetorUC[], int quantUCs)
+void alterarAula(tipoAulas vetorAula[], int *quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas, tipoUCs vetorUC[], int quantUCs)
 {
     int codigoUC, posicaoUC, posicaoAula, opcao, erro, duracaoAula;
     char designacaoAula[MAX_STRING];
+    int quantAulas=calcularQuantAulas(*quantAulasAgendadas, quantAulasDecorrer, quantAulasRealizadas);
 
     printf("\nIndique a designacao da aula a alterar");
     lerString("\nDesignacao da aula: ", designacaoAula, MAX_STRING);
-    posicaoAula = procuraAulaNome(vetorAula, *quantAulas, designacaoAula);
+    posicaoAula = procuraAulaNome(vetorAula, quantAulas, designacaoAula);
     if (posicaoAula == -1)
     {
         printf("\n\nERRO: A aula nao existe!!");
     }
     else
     {
-        opcao = menuAlterarAula(vetorAula, posicaoAula);
-
-        switch(opcao)
+        if(vetorAula[posicaoAula].estadoAula!=1)
         {
-        case 1: //Codigo da UC
-            codigoUC = lerInteiro("\nCodigo da UC: ", MIN_CODUC, MAX_CODUC);
-            posicaoUC = procuraUCCodigo(vetorUC, quantUCs, codigoUC);
-            if(posicaoUC == -1)
+            printf("\n\nERRO: A aula ja esta a decorrer/foi realizada!!");
+        }
+        else
+        {
+            opcao = menuAlterarAula(vetorAula, posicaoAula);
+
+            switch(opcao)
             {
-                printf("\n\nERRO: A UC nao existe!!");
-            }
-            else
-            {
-                vetorAula[posicaoAula].codigoUC = codigoUC;
-            }
-            break;
-        case 2: //Tipo de aula
-            do
-            {
+            case 1: //Codigo da UC
+                codigoUC = lerInteiro("\nCodigo da UC: ", MIN_CODUC, MAX_CODUC);
+                posicaoUC = procuraUCCodigo(vetorUC, quantUCs, codigoUC);
+                if(posicaoUC == -1)
+                {
+                    printf("\n\nERRO: A UC nao existe!!");
+                }
+                else
+                {
+                    vetorAula[posicaoAula].codigoUC = codigoUC;
+                }
+                break;
+            case 2: //Tipo de aula
+                do
+                {
+                    posicaoUC = procuraUCCodigo(vetorUC, quantUCs, vetorAula[posicaoAula].codigoUC);
+
+                    opcao = menuTipoAula(vetorUC, posicaoUC);
+                    switch(opcao)
+                    {
+                    case 1: //T
+                        if(vetorUC[posicaoUC].quantPrevistaT == 0)
+                        {
+                            printf("\n\nERRO: A UC nao tem quantidade prevista de aulas T!!");
+                            erro=1;
+                        }
+                        else
+                        {
+                            vetorAula[posicaoAula].tipoAula = 1;
+                            vetorUC[posicaoUC].quantPrevistaT -= 1;
+                            duracaoAula = vetorUC[posicaoUC].duracaoT;
+                            erro=0;
+                        }
+                        break;
+                    case 2: //TP
+                        if(vetorUC[posicaoUC].quantPrevistaTP == 0)
+                        {
+                            printf("\n\nERRO: A UC nao tem quantidade prevista de aulas TP!!");
+                            erro=1;
+                        }
+                        else
+                        {
+                            vetorAula[posicaoAula].tipoAula = 2;
+                            vetorUC[posicaoUC].quantPrevistaTP -= 1;
+                            duracaoAula = vetorUC[posicaoUC].duracaoTP;
+                            erro=0;
+                        }
+                        break;
+                    case 3: //PL
+                        if(vetorUC[posicaoUC].quantPrevistaPL == 0)
+                        {
+                            printf("\n\nERRO: A UC nao tem quantidade prevista de aulas PL!!");
+                            erro=1;
+                        }
+                        else
+                        {
+                            vetorAula[posicaoAula].tipoAula = 3;
+                            vetorUC[posicaoUC].quantPrevistaPL -= 1;
+                            duracaoAula = vetorUC[posicaoUC].duracaoPL;
+                            erro=0;
+                        }
+                        break;
+                    }
+                }
+                while(erro==1);
+                break;
+            case 3: //Nome do docente
+                lerString("\nNome do Docente: ", vetorAula[posicaoAula].nomeDocente, MAX_STRING);
+                break;
+            case 4: //Data da aula
+                vetorAula[posicaoAula].data = lerData("\nData da aula");
+                break;
+            case 5: //Hora de inicio da aula
                 posicaoUC = procuraUCCodigo(vetorUC, quantUCs, vetorAula[posicaoAula].codigoUC);
 
-                opcao = menuTipoAula(vetorUC, posicaoUC);
-                switch(opcao)
+                switch(vetorAula[posicaoAula].tipoAula)
                 {
                 case 1: //T
                     if(vetorUC[posicaoUC].quantPrevistaT == 0)
                     {
-                        printf("\n\nERRO: A UC nao tem quantidade prevista de aulas T!!");
-                        erro=1;
-                    }
-                    else
-                    {
-                        vetorAula[posicaoAula].tipoAula = 1;
-                        vetorUC[posicaoUC].quantPrevistaT -= 1;
                         duracaoAula = vetorUC[posicaoUC].duracaoT;
-                        erro=0;
                     }
                     break;
                 case 2: //TP
                     if(vetorUC[posicaoUC].quantPrevistaTP == 0)
                     {
-                        printf("\n\nERRO: A UC nao tem quantidade prevista de aulas TP!!");
-                        erro=1;
-                    }
-                    else
-                    {
-                        vetorAula[posicaoAula].tipoAula = 2;
-                        vetorUC[posicaoUC].quantPrevistaTP -= 1;
                         duracaoAula = vetorUC[posicaoUC].duracaoTP;
-                        erro=0;
                     }
                     break;
                 case 3: //PL
                     if(vetorUC[posicaoUC].quantPrevistaPL == 0)
                     {
-                        printf("\n\nERRO: A UC nao tem quantidade prevista de aulas PL!!");
-                        erro=1;
-                    }
-                    else
-                    {
-                        vetorAula[posicaoAula].tipoAula = 3;
-                        vetorUC[posicaoUC].quantPrevistaPL -= 1;
                         duracaoAula = vetorUC[posicaoUC].duracaoPL;
-                        erro=0;
                     }
                     break;
                 }
-            }
-            while(erro==1);
-            break;
-        case 3: //Nome do docente
-            lerString("\nNome do Docente: ", vetorAula[posicaoAula].nomeDocente, MAX_STRING);
-            break;
-        case 4: //Data da aula
-            vetorAula[posicaoAula].data = lerData("\nData da aula");
-            break;
-        case 5: //Hora de inicio da aula
-            posicaoUC = procuraUCCodigo(vetorUC, quantUCs, vetorAula[posicaoAula].codigoUC);
 
-            switch(vetorAula[posicaoAula].tipoAula)
-            {
-            case 1: //T
-                if(vetorUC[posicaoUC].quantPrevistaT == 0)
+                if(vetorUC[posicaoUC].regime == 1)
                 {
-                    duracaoAula = vetorUC[posicaoUC].duracaoT;
+                    vetorAula[posicaoAula].horaInicio = lerHora("\nHora da aula", MIN_HORADIURNO, MAX_HORADIURNO);
                 }
-                break;
-            case 2: //TP
-                if(vetorUC[posicaoUC].quantPrevistaTP == 0)
+                else
                 {
-                    duracaoAula = vetorUC[posicaoUC].duracaoTP;
+                    vetorAula[posicaoAula].horaInicio = lerHora("\nHora da aula", MIN_HORAPOSLABORAL, MAX_HORAPOSLABORAL);
                 }
-                break;
-            case 3: //PL
-                if(vetorUC[posicaoUC].quantPrevistaPL == 0)
-                {
-                    duracaoAula = vetorUC[posicaoUC].duracaoPL;
-                }
+
+                vetorAula[posicaoAula].horaFim = contarHoraFim(vetorAula[posicaoAula].horaInicio, duracaoAula);
+
                 break;
             }
-
-            if(vetorUC[posicaoUC].regime == 1)
-            {
-                vetorAula[posicaoAula].horaInicio = lerHora("\nHora da aula", MIN_HORADIURNO, MAX_HORADIURNO);
-            }
-            else
-            {
-                vetorAula[posicaoAula].horaInicio = lerHora("\nHora da aula", MIN_HORAPOSLABORAL, MAX_HORAPOSLABORAL);
-            }
-
-            vetorAula[posicaoAula].horaFim = contarHoraFim(vetorAula[posicaoAula].horaInicio, duracaoAula);
-
-            break;
+            printf("\n\nAlteracao da aula efetuada com sucesso!!");
         }
-
-        printf("\n\nAlteracao da aula efetuada com sucesso!!");
     }
 }
 
@@ -270,50 +305,55 @@ int menuAlterarAula(tipoAulas vetorAula[], int i)
     return opcao;
 }
 
-
-
-
-
-
-
-tipoAulas *eliminarAula(tipoAulas vetorAula[], int *quantAulas)
+tipoAulas *eliminarAula(tipoAulas vetorAula[], int *quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas)
 {
     tipoAulas *pAula;
     int i, posicao;
     char nome[MAX_STRING];
+    int quantAulas=calcularQuantAulas(*quantAulasAgendadas, quantAulasDecorrer, quantAulasRealizadas);
 
     pAula = vetorAula;
 
-    if(*quantAulas != 0)
+    if(quantAulas != 0)
     {
         printf("\nIndique a designacao da aula a eliminar");
         lerString("\nDesignacao da aula: ", nome, MAX_STRING);
-        posicao = procuraAulaNome(vetorAula, *quantAulas, nome);
+        posicao = procuraAulaNome(vetorAula, quantAulas, nome);
         if(posicao == -1)
         {
             printf("\n\nERRO: A aula nao existe!!");
         }
         else
         {
-            for(i=posicao; i < *quantAulas-1; i++)
+            if(vetorAula[posicao].estadoAula!=1)
             {
-                vetorAula[i] = vetorAula[i+1];
+                printf("\n\nERRO: A aula ja esta a decorrer/foi realizada!!");
             }
-            vetorAula = realloc(vetorAula, (*quantAulas-1)*sizeof(tipoAulas));
-            if(vetorAula == NULL && (*quantAulas-1)!=0)
+            else
             {
-                printf("\n\nERRO: Erro na alocacao de memoria!!");
-                vetorAula = pAula;
+                for(i=posicao; i < quantAulas-1; i++)
+                {
+                    vetorAula[i] = vetorAula[i+1];
+                }
+                vetorAula = realloc(vetorAula, (quantAulas-1)*sizeof(tipoAulas));
+                if(vetorAula == NULL && (quantAulas-1)!=0)
+                {
+                    printf("\n\nERRO: Erro na alocacao de memoria!!");
+                    vetorAula = pAula;
+                }
+                printf("\nOperacao executada com sucesso!!");
+                (*quantAulasAgendadas)--;
             }
-            (*quantAulas)--;
         }
     }
     return vetorAula;
 }
 
-void mostrarDadosAulas(tipoAulas vetorAula[], int quantAulas)
+void mostrarDadosAulas(tipoAulas vetorAula[], int quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas)
 {
     int i;
+
+    int quantAulas= quantAulasAgendadas+quantAulasDecorrer+quantAulasRealizadas;
 
     if (quantAulas == 0)
     {
@@ -366,16 +406,132 @@ void escreverDadosAula (tipoAulas aula)
         printf("Realizada");
         break;
     }
+}
+
+void acrescentarAulaRealizada(tipoAulas vetorAula[], int quantAulasAgendadas, int *quantAulasDecorrer, int *quantAulasRealizadas, int *quantAulasGravadas)
+{
+    char designacaoAula[MAX_STRING];
+    int posicaoAula;
+
+    int quantAulas= quantAulasAgendadas+*quantAulasDecorrer+*quantAulasRealizadas;
+
+    if (*quantAulasDecorrer == 0)
+    {
+        printf("\n\nERRO: Nao existem aulas a decorrer!!");
+    }
+    else
+    {
+        lerString("\nInsira a designacao da aula que esteja a decorrer que deseja concluir: ", designacaoAula, MAX_STRING);
+        posicaoAula = procuraAulaNome(vetorAula, quantAulas, designacaoAula);
+        if(posicaoAula == -1)
+        {
+            printf("\n\nERRO: A aula nao existe!!");
+        }
+        else
+        {
+            if(vetorAula[posicaoAula].estadoAula!=2)
+            {
+                printf("\n\nERRO: A aula nao esta a decorrer!!");
+            }
+            else
+            {
+                vetorAula[posicaoAula].estadoAula = 3; //realizada
+                (*quantAulasDecorrer)--;
+                (*quantAulasRealizadas)++;
+                if(vetorAula[posicaoAula].gravacao=='S')
+                {
+                   (*quantAulasGravadas)++;
+                }
+
+                printf("\n\nAula efectuada!!");
+            }
+        }
+    }
+}
+
+void acrescentarAulaDecorrer(tipoAulas vetorAula[], int *quantAulasAgendadas, int *quantAulasDecorrer, int quantAulasRealizadas)
+{
+    char designacaoAula[MAX_STRING];
+    int posicaoAula;
+    char opcao;
+
+    int quantAulas= *quantAulasAgendadas+*quantAulasDecorrer+quantAulasRealizadas;
+
+    if (*quantAulasAgendadas == 0)
+    {
+        printf("\n\nERRO: Nao existem aulas agendadas!!");
+    }
+    else
+    {
+        lerString("\nInsira a designacao da aula que deseja comecar: ", designacaoAula, MAX_STRING);
+        posicaoAula = procuraAulaNome(vetorAula, quantAulas, designacaoAula);
+        if(posicaoAula == -1)
+        {
+            printf("\n\nERRO: A aula nao existe!!");
+        }
+        else
+        {
+            if(vetorAula[posicaoAula].estadoAula!=1)
+            {
+                printf("\n\nERRO: A aula ja esta a decorrer/foi realizada!!");
+            }
+            else
+            {
+                vetorAula[posicaoAula].estadoAula = 2; //a decorrer
+                (*quantAulasAgendadas)--;
+                (*quantAulasDecorrer)++;
+
+                opcao = menuGravacaoAula();
+                switch(opcao)
+                {
+                case 'S':
+                    vetorAula[posicaoAula].gravacao='S';
+                    break;
+                case 'N':
+                    vetorAula[posicaoAula].gravacao='N';
+                    break;
+                }
+
+                printf("\n\nOperacao executada com sucesso!!");
+            }
+        }
+    }
 
 }
 
-tipoAulas *acrescentarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetorUC[], int quantUCs)
+char menuGravacaoAula(void)
+{
+    char opcao;
+    do
+    {
+        printf("\nDeseja gravar a aula? (S/N)");
+        printf("\n\t\tOPCAO -> ");
+
+        scanf("%c", &opcao);
+        limpaBufferStdin();
+
+        opcao = toupper (opcao);
+
+        if (strchr("SN", opcao) == NULL)
+        {
+            printf("\n\nERRO: Opcao Invalida!!");
+        }
+    }
+    while (strchr("SN", opcao) == NULL);
+
+    return opcao;
+
+}
+
+
+tipoAulas *acrescentarAulaAgendada(tipoAulas vetorAula[], int *quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas, tipoUCs vetorUC[], int quantUCs)
 {
     int codigoUC, posicaoUC, posicaoAula, opcao, erro, duracaoAula, falha;
     char designacaoAula[MAX_STRING];
     tipoAulas *pAula = NULL;
-
     pAula = vetorAula;
+
+    int quantAulas = *quantAulasAgendadas+quantAulasDecorrer+quantAulasRealizadas;
 
     if (quantUCs == 0)
     {
@@ -391,7 +547,7 @@ tipoAulas *acrescentarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetor
         }
         else
         {
-            pAula = realloc(vetorAula, (*quantAulas+1)*sizeof(tipoAulas));
+            pAula = realloc(vetorAula, (quantAulas+1)*sizeof(tipoAulas));
             if(pAula == NULL)
             {
                 printf("\n\nERRO: Impossivel agendar a aula!!");
@@ -401,15 +557,15 @@ tipoAulas *acrescentarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetor
                 vetorAula = pAula;
 
                 lerString("\nDesignacao da aula: ", designacaoAula, MAX_STRING);
-                posicaoAula = procuraAulaNome(vetorAula, *quantAulas, designacaoAula);
+                posicaoAula = procuraAulaNome(vetorAula, quantAulas, designacaoAula);
                 if(posicaoAula != -1)
                 {
                     printf("\n\nERRO: A aula ja existe!!");
                 }
                 else
                 {
-                    strcpy(vetorAula[*quantAulas].designacao, designacaoAula);
-                    vetorAula[*quantAulas].codigoUC = codigoUC;
+                    strcpy(vetorAula[quantAulas].designacao, designacaoAula);
+                    vetorAula[quantAulas].codigoUC = codigoUC;
                     do
                     {
                         opcao = menuTipoAula(vetorUC, posicaoUC);
@@ -423,7 +579,7 @@ tipoAulas *acrescentarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetor
                             }
                             else
                             {
-                                vetorAula[*quantAulas].tipoAula = 1;
+                                vetorAula[quantAulas].tipoAula = 1;
                                 vetorUC[posicaoUC].quantPrevistaT -= 1;
                                 duracaoAula = vetorUC[posicaoUC].duracaoT;
                                 erro=0;
@@ -437,7 +593,7 @@ tipoAulas *acrescentarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetor
                             }
                             else
                             {
-                                vetorAula[*quantAulas].tipoAula = 2;
+                                vetorAula[quantAulas].tipoAula = 2;
                                 vetorUC[posicaoUC].quantPrevistaTP -= 1;
                                 duracaoAula = vetorUC[posicaoUC].duracaoTP;
                                 erro=0;
@@ -451,7 +607,7 @@ tipoAulas *acrescentarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetor
                             }
                             else
                             {
-                                vetorAula[*quantAulas].tipoAula = 3;
+                                vetorAula[quantAulas].tipoAula = 3;
                                 vetorUC[posicaoUC].quantPrevistaPL -= 1;
                                 duracaoAula = vetorUC[posicaoUC].duracaoPL;
                                 erro=0;
@@ -461,30 +617,30 @@ tipoAulas *acrescentarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetor
                     }
                     while(erro==1);
 
-                    lerString("\nNome do Docente: ", vetorAula[*quantAulas].nomeDocente, MAX_STRING);
+                    lerString("\nNome do Docente: ", vetorAula[quantAulas].nomeDocente, MAX_STRING);
 
 
                     do
                     {
-                        vetorAula[*quantAulas].data = lerData("\nData da aula");
+                        vetorAula[quantAulas].data = lerData("\nData da aula");
                         if(vetorUC[posicaoUC].regime == 1)
                         {
-                            vetorAula[*quantAulas].horaInicio = lerHora("\nHora da aula", MIN_HORADIURNO, MAX_HORADIURNO);
+                            vetorAula[quantAulas].horaInicio = lerHora("\nHora da aula", MIN_HORADIURNO, MAX_HORADIURNO);
                         }
                         else
                         {
-                            vetorAula[*quantAulas].horaInicio = lerHora("\nHora da aula", MIN_HORAPOSLABORAL, MAX_HORAPOSLABORAL);
+                            vetorAula[quantAulas].horaInicio = lerHora("\nHora da aula", MIN_HORAPOSLABORAL, MAX_HORAPOSLABORAL);
                         }
-                        vetorAula[*quantAulas].horaFim = contarHoraFim(vetorAula[*quantAulas].horaInicio, duracaoAula);
-                        falha = validarDataHora(vetorAula, *quantAulas, vetorAula[*quantAulas].data, vetorAula[*quantAulas].horaInicio, vetorAula[*quantAulas].horaFim);
+                        vetorAula[quantAulas].horaFim = contarHoraFim(vetorAula[quantAulas].horaInicio, duracaoAula);
+                        falha = validarDataHora(vetorAula, quantAulas, vetorUC, quantUCs, vetorAula[quantAulas].data, vetorAula[quantAulas].horaInicio, vetorAula[quantAulas].horaFim);
                     }
                     while(falha==1);
 
+                    printf("\n\nAula agendada!!");
 
-
-                    vetorAula[*quantAulas].estadoAula = 1; //agendada
-
-                    (*quantAulas)++;
+                    vetorAula[quantAulas].estadoAula = 1; //agendada
+                    (*quantAulasAgendadas)++;
+                    (quantAulas)++;
                 }
             }
         }
@@ -492,40 +648,42 @@ tipoAulas *acrescentarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetor
     return vetorAula;
 }
 
-int validarDataHora(tipoAulas vetorAula[], int quantAulas, tipoData data, tipoHora horaInicio, tipoHora horaFim)
+int validarDataHora(tipoAulas vetorAula[], int quantAulas, tipoUCs vetorUC[], int quantUCs, tipoData data, tipoHora horaInicio, tipoHora horaFim)
 {
     int horaMinutosInicio, minutosInicio, horaMinutosFim, minutosFim, horaMinutosInicioI, minutosInicioI, horaMinutosFimI, minutosFimI;
-    int falha, i;
+    int falha, i, pos;
 
     horaMinutosInicio = horaInicio.hora * 60;
     minutosInicio = horaInicio.minuto + horaMinutosInicio;
 
-    printf("\nInicio: %d", minutosInicio);
-
     horaMinutosFim = horaFim.hora * 60;
     minutosFim = horaFim.minuto + horaMinutosFim;
 
-    printf("\nFim: %d", minutosFim);
-
-    for(i=0; i<quantAulas; i++)
+    for(pos=0; pos<quantUCs; pos++)
     {
-        if(data.dia==vetorAula[i].data.dia)
+        for(i=0; i<quantAulas; i++)                             //Melhorar!!!!****************************************************************************************************
         {
-            if(data.mes==vetorAula[i].data.mes)
+            if(vetorAula[i].codigoUC==vetorUC[pos].codigoUC)
             {
-                if(data.ano==vetorAula[i].data.ano)
+                if(data.dia==vetorAula[i].data.dia)
                 {
-                    horaMinutosInicioI = vetorAula[i].horaInicio.hora * 60;
-                    minutosInicioI = vetorAula[i].horaInicio.minuto + horaMinutosInicioI;
-
-                    horaMinutosFimI = vetorAula[i].horaFim.hora * 60;
-                    minutosFimI = vetorAula[i].horaFim.minuto + horaMinutosFimI;
-
-                    if(minutosInicio>=minutosInicioI && minutosInicio<=minutosFimI && minutosFim>=minutosInicioI && minutosFim<=minutosFimI) //Corrigir esta verificacao
+                    if(data.mes==vetorAula[i].data.mes)
                     {
-                            printf("\n\nERRO: A aula nao pode ser agendada!!");
+                        if(data.ano==vetorAula[i].data.ano)
+                        {
+                            horaMinutosInicioI = vetorAula[i].horaInicio.hora * 60;
+                            minutosInicioI = vetorAula[i].horaInicio.minuto + horaMinutosInicioI;
 
-                            falha=1;
+                            horaMinutosFimI = vetorAula[i].horaFim.hora * 60;
+                            minutosFimI = vetorAula[i].horaFim.minuto + horaMinutosFimI;
+
+                            if((minutosInicio>=minutosInicioI && minutosInicio<=minutosFimI) || (minutosFim>=minutosInicioI && minutosFim<=minutosFimI)) //Corrigir esta verificacao
+                            {
+                                printf("\n\nERRO: A aula nao pode ser agendada!!");
+
+                                falha=1;
+                            }
+                        }
                     }
                 }
             }
@@ -572,6 +730,11 @@ int procuraAulaNome(tipoAulas vetorAula[], int quantAulas, char nome[])
     return posicao;
 }
 
+int calcularQuantAulas(int quantAulasAgendadas, int quantAulasDecorrer, int quantAulasRealizadas)
+{
+    int quantAulas = quantAulasAgendadas+quantAulasDecorrer+quantAulasRealizadas;
+    return quantAulas;
+}
 
 int menuTipoAula(tipoUCs vetorUC[], int i)
 {
