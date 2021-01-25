@@ -1,13 +1,13 @@
 # depslib dependency file v1.0
-1611485913 source:c:\projeto_prog1\project\funcoes_auxiliares.c
+1611526293 source:c:\projeto_prog1\project\funcoes_auxiliares.c
 	<stdio.h>
 	<ctype.h>
 	<string.h>
 	"funcoes_auxiliares.h"
 
-1611485913 c:\projeto_prog1\project\funcoes_auxiliares.h
+1611498283 c:\projeto_prog1\project\funcoes_auxiliares.h
 
-1611488416 source:c:\projeto_prog1\project\main.c
+1611519993 source:c:\projeto_prog1\project\main.c
 	<stdio.h>
 	<stdlib.h>
 	<ctype.h>
@@ -18,7 +18,7 @@
 1611485913 c:\projeto_prog1\project\gestao_ucs.h
 	"funcoes_auxiliares.h"
 
-1611487620 c:\projeto_prog1\project\gestao_aulas.h
+1611517901 c:\projeto_prog1\project\gestao_aulas.h
 	"funcoes_auxiliares.h"
 	"gestao_UCs.h"
 
@@ -29,7 +29,7 @@
 	"gestao_Aulas.h"
 	"funcoes_auxiliares.h"
 
-1611487950 source:c:\projeto_prog1\project\gestao_ucs.c
+1611498283 source:c:\projeto_prog1\project\gestao_ucs.c
 	<stdio.h>
 	<ctype.h>
 	<string.h>

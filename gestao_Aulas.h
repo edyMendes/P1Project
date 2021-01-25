@@ -25,6 +25,7 @@ typedef struct
 int menuTipoAula(tipoUCs vetorUC[], int i);
 int procuraAulaNome(tipoAulas vetorAula[], int quantAulas, char nome[]);
 tipoHora contarHoraFim(tipoHora horaInicio, int duracaoAula);
+int validarDataHora(tipoAulas vetorAula[], int quantAulas, tipoData data, tipoHora horaInicio, tipoHora horaFim);
 tipoAulas *acrescentarAula(tipoAulas vetorAula[], int *quantAulas, tipoUCs vetorUC[], int quantUCs);
 
 void escreverDadosAula (tipoAulas aula);
